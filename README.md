@@ -1,2 +1,2 @@
 # kaggle
-My Kaggle competitions
+[My Kaggle competitions](https://www.kaggle.com/davidkatzil/competitions)
