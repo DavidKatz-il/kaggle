@@ -1,3 +1,4 @@
+import pandas as pd
 import networkx as nx
 from itertools import combinations
 from typing import Callable, Union, List
