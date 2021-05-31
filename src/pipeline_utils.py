@@ -1,6 +1,6 @@
 from sklearn.base import BaseEstimator
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import make_scorer, mean_squared_error
+from sklearn.metrics import make_scorer, mean_squared_error, roc_auc_score
 
 from lightgbm import LGBMRegressor, LGBMClassifier
 
@@ -40,7 +40,10 @@ class LGBMEarlyStopping(BaseEstimator):
 
     def predict(self, X):
         return self.estimator.predict(X)
-
+    
+    def predict_proba(self, X):
+        return self.estimator.predict_proba(X)
+        
 
 class LGBMRegressorEarlyStopping(LGBMEarlyStopping):
     def __init__(self, *args, **kwargs):
@@ -52,9 +55,14 @@ class LGBMClassifierEarlyStopping(LGBMEarlyStopping):
     def __init__(self, *args, **kwargs):
         self.estimator = LGBMClassifier()
         super(LGBMClassifierEarlyStopping, self).__init__(*args, **kwargs)
-
+    
 
 mse = make_scorer(
     score_func=lambda y, y_pred: mean_squared_error(y, y_pred, squared=False),
     greater_is_better=False,
+)
+
+
+auc = make_scorer(
+    score_func=roc_auc_score, greater_is_better=True, needs_threshold=True,
 )
